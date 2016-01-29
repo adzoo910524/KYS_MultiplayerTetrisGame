@@ -18,22 +18,22 @@
     <ClInclude Include="blockInfo.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="blockStageControl.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="common.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="blockStageControl.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
     <ClInclude Include="keyCurControl.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="networkConnection.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="point.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="scoreLevelControl.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="networkConnection.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -44,13 +44,13 @@
     <ClCompile Include="keyCurControl.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="networkConnection.c">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
     <ClCompile Include="scoreLevelControl.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="tetrisMain.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="networkConnection.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

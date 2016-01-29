@@ -333,7 +333,7 @@ void DrawGameBoard(void)
 
     /* 矫阿利牢 何盒 贸府 */
 
-	SetCurrentCursorPos(11, 0);
+	SetCurrentCursorPos(11, 23);
 	printf("My Screen");
 
 	//// Block Board /////
@@ -403,7 +403,7 @@ void DrawGameBoard(void)
 
 
 	//// Opponent Block Board /////
-	SetCurrentCursorPos(59, 0);
+	SetCurrentCursorPos(59, 23);
 	printf("Opponent Screen");
 	for (y = 0; y <= OPPONENT_GBOARD_HEIGHT; y++)
 	{

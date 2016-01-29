@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{AAB90C91-4339-46AB-AD87-F72418DC2CB7}</ProjectGuid>
+    <ProjectGuid>{96132151-99F8-4061-BA9A-81B1555A845D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>KYS_TetrisGame</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
