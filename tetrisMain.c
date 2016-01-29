@@ -9,14 +9,28 @@
 #include "keyCurControl.h"
 #include "blockStageControl.h"
 #include "scoreLevelControl.h"
+#include "networkConnection.h"
 
 #define START_CURPOS_X         (5*2)
 #define START_CURPOS_Y         (0)
 
 int main(void)
 {
+	int select;
+
 	puts("Tetris Game");
-	system("pause");
+	puts("Server : 1, Client : 2, Exit : 0");
+	scanf("%d", &select);
+
+	if (select == 1)
+		BeServer();
+	else if (select == 2)
+		BeClient();
+	else
+	{
+		puts("프로그램을 종료합니다.");
+		exit(1);
+	}
 	system("cls");
 
     /* 게임 속도 설정 */
@@ -41,8 +55,28 @@ int main(void)
         ChooseBlock();
         
         /* 게임 종료 확인 */
-        if(IsGameOver())
-            break;
+		if (IsGameOver())
+		{
+			setDefeatValue();
+		}
+
+		/* 상대방 블록 채우기 */
+		DrawOpponentBlock();
+
+		/* 상대방 블록 상황 갱신 */
+		if (NetworkConditionRenew(select) == 1)
+		{
+			SetCurrentCursorPos(10, 10);
+			puts("You Win!");
+			puts("");
+			break;
+		}
+		else if (NetworkConditionRenew(select) == -1)
+		{
+			SetCurrentCursorPos(10, 10);
+			puts("You Lose!");
+			break;
+		}
          
         /* 내리는 작업 시작 */
         while(1)
@@ -56,9 +90,8 @@ int main(void)
 				break;		// SPACE 바 입력 시
         }
     }
-    
-    SetCurrentCursorPos(10, 10);
-    puts("GAME OVER ^^");
+
+	NetworkClose();
     
     return 0;
 }

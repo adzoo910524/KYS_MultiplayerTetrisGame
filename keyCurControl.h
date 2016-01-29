@@ -1,5 +1,5 @@
 /* Name: keyCurControl.h  ver 1.1
- * Content: 커서, 키보드 컨트롤 함수들의 정의
+ * Content: 커서, 키보드 컨트롤 함수들의 선언
  * Implementation: KYS
  * 
  * Last modified 2016/01/24

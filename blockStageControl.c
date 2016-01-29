@@ -15,20 +15,24 @@
 
 #define  GBOARD_WIDTH    10
 #define  GBOARD_HEIGHT   20
-
 #define  GBOARD_ORIGIN_X  4
 #define  GBOARD_ORIGIN_Y  2
 
 #define  NEXT_GBOARD_WIDTH    5
 #define  NEXT_GBOARD_HEIGHT   5
-
 #define  NEXT_GBOARD_ORIGIN_X  34
 #define  NEXT_GBOARD_ORIGIN_Y  2
+
+#define OPPONENT_GBOARD_WIDTH    10
+#define OPPONENT_GBOARD_HEIGHT   20
+#define OPPONENT_GBOARD_ORIGIN_X  54
+#define OPPONENT_GBOARD_ORIGIN_Y  2
 
 #define TRUE	1
 #define FALSE	0
 
-static int gameBoardInfo[GBOARD_HEIGHT+1][GBOARD_WIDTH+2]={0,};
+int gameBoardInfo[GBOARD_HEIGHT+1][GBOARD_WIDTH+2]={0,};
+extern int opponentGameBoardInfo[OPPONENT_GBOARD_HEIGHT + 1][OPPONENT_GBOARD_WIDTH + 2] = { 0, };
 
 static int currentBlockModel, nextBlockModel;
 static int curPosX, curPosY;
@@ -395,6 +399,36 @@ void DrawGameBoard(void)
 	}
 
 
+	//// Opponent Block Board /////
+	SetCurrentCursorPos(59, 0);
+	printf("Opponent Screen");
+	for (y = 0; y <= OPPONENT_GBOARD_HEIGHT; y++)
+	{
+		SetCurrentCursorPos(OPPONENT_GBOARD_ORIGIN_X, OPPONENT_GBOARD_ORIGIN_Y + y);
+
+		if (y == GBOARD_HEIGHT)
+			printf("┗");
+		else
+			printf("┃");
+	}
+
+	for (y = 0; y <= OPPONENT_GBOARD_HEIGHT; y++)
+	{
+		SetCurrentCursorPos(OPPONENT_GBOARD_ORIGIN_X + (OPPONENT_GBOARD_WIDTH + 1) * 2, OPPONENT_GBOARD_ORIGIN_Y + y);
+
+		if (y == OPPONENT_GBOARD_HEIGHT)
+			printf("┛");
+		else
+			printf("┃");
+	}
+
+	for (x = 1; x<OPPONENT_GBOARD_WIDTH + 1; x++)
+	{
+		SetCurrentCursorPos(OPPONENT_GBOARD_ORIGIN_X + x * 2, OPPONENT_GBOARD_ORIGIN_Y + OPPONENT_GBOARD_HEIGHT);
+		printf("━");
+	}
+
+
     SetCurrentCursorPos(0, 0);	
 
     /* 데이터 부분 처리 */
@@ -477,6 +511,32 @@ void DrawSolidBlocks(void)
 	}
 }
 
+/* 함    수: void DrawOpponentBlock(void)
+* 기    능 : 상대방 블록 채우기
+* 반    환: void
+*
+*/
+void DrawOpponentBlock(void)
+{
+	int x, y;
+	int cursX, cursY;
+
+	for (y = 0; y < OPPONENT_GBOARD_HEIGHT; y++)
+	{
+		for (x = 1; x < OPPONENT_GBOARD_WIDTH + 1; x++)
+		{
+			cursX = x * 2 + OPPONENT_GBOARD_ORIGIN_X;
+			cursY = y + OPPONENT_GBOARD_ORIGIN_Y;
+			SetCurrentCursorPos(cursX, cursY);
+
+			if (opponentGameBoardInfo[y][x] == 1)
+				printf("■");
+			else
+				printf("  ");
+		}
+	}
+}
+
 /* 함    수: void SolidCurrentBlock(void)
 * 기    능 : 행 단위로 채워진 블록을 삭제한다.
 * 반    환: void
@@ -486,4 +546,15 @@ void SolidCurrentBlock(void)
 {
 	while (BlockDown());
 }
+
+/* 함    수: void setDefeatValue()
+* 기    능: 패배 시 패배 값 대입
+* 반    환: void
+*
+*/
+void setDefeatValue()
+{
+	gameBoardInfo[0][0] = 'q';
+}
+
 /* end of file */

@@ -8,6 +8,7 @@
 #ifndef __COMMOM_H__
 #define __COMMON_H__
 
+#pragma warning (disable:4996)
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

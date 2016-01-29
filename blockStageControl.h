@@ -23,6 +23,8 @@ void SolidCurrentBlock(void);
 
 void AddCurrentBlockInfoToBoard(void);
 void DrawGameBoard(void);
+void DrawOpponentBlock(void);
 int IsGameOver(void);
+void setDefeatValue(void);
 
 #endif
