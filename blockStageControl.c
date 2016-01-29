@@ -333,6 +333,9 @@ void DrawGameBoard(void)
 
     /* 시각적인 부분 처리 */
 
+	SetCurrentCursorPos(11, 0);
+	printf("My Screen");
+
 	//// Block Board /////
     for(y=0; y<=GBOARD_HEIGHT; y++)
     {
@@ -521,6 +524,8 @@ void DrawOpponentBlock(void)
 	int x, y;
 	int cursX, cursY;
 
+	point curPos = GetCurrentCursorPos();
+
 	for (y = 0; y < OPPONENT_GBOARD_HEIGHT; y++)
 	{
 		for (x = 1; x < OPPONENT_GBOARD_WIDTH + 1; x++)
@@ -535,6 +540,8 @@ void DrawOpponentBlock(void)
 				printf("  ");
 		}
 	}
+
+	SetCurrentCursorPos(curPos.x, curPos.y);
 }
 
 /* 함    수: void SolidCurrentBlock(void)
@@ -547,14 +554,13 @@ void SolidCurrentBlock(void)
 	while (BlockDown());
 }
 
-/* 함    수: void setDefeatValue()
+/* 함    수: void setLoseValue()
 * 기    능: 패배 시 패배 값 대입
 * 반    환: void
 *
 */
-void setDefeatValue()
+void setLoseValue()
 {
-	gameBoardInfo[0][0] = 'q';
+	gameBoardInfo[0][0] = -1;
 }
-
 /* end of file */

@@ -15,6 +15,8 @@
 #define OPPONENT_GBOARD_WIDTH    10
 #define OPPONENT_GBOARD_HEIGHT   20
 
+static enum {WIN=1, CONTINUE=0, LOSE=-1};
+
 static WSADATA wsaData;
 static SOCKET sock;
 static SOCKADDR_IN servAdr, clntAdr;
@@ -83,11 +85,13 @@ void BeClient(void)
 	servAdr.sin_port = htons(myPort);
 
 	connect(sock, (SOCKADDR*)&servAdr, sizeof(servAdr));
+
+	send(sock, (char*)gameBoardInfo, BUF_SIZE, 0);
 }
 
 /* 함    수: void NetworkConditionRenew(int SC_select)
 * 기    능: 네트워크 상황 갱신 (상대방 화면)
-* 반    환: int ( 승리 :1 / 진행중 : 0 / 패배 : -1 )
+* 반    환: int ( 승리 :1 / 진행중 : 0 )
 *
 */
 int NetworkConditionRenew(int SC_select)
@@ -98,27 +102,23 @@ int NetworkConditionRenew(int SC_select)
 		strLen = recvfrom(sock, (char*)opponentGameBoardInfo, BUF_SIZE, 0,
 			(SOCKADDR*)&clntAdr, &clntAdrSz);
 
-		if (opponentGameBoardInfo[0][0] == 'q')
-			return 1;
-		else if (gameBoardInfo[0][0] == 'q')
-			return -1;
+		if (opponentGameBoardInfo[0][0] == LOSE)
+			return WIN;
 
 		sendto(sock, (char*)gameBoardInfo, BUF_SIZE, 0,
 			(SOCKADDR*)&clntAdr, sizeof(clntAdr));
 	}
 	else
 	{
-		send(sock, (char*)gameBoardInfo, BUF_SIZE, 0);
-
 		strLen = recv(sock, (char*)opponentGameBoardInfo, BUF_SIZE, 0);
 
-		if (opponentGameBoardInfo[0][0] == 'q')
-			return 1;
-		else if (gameBoardInfo[0][0] == 'q')
-			return -1;
+		if (opponentGameBoardInfo[0][0] == LOSE)
+			return WIN;
+
+		send(sock, (char*)gameBoardInfo, BUF_SIZE, 0);
 	}
 
-	return 0;
+	return CONTINUE;
 }
 
 /* 함    수: void NetworkClose(void)

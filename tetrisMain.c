@@ -48,37 +48,37 @@ int main(void)
     /* 반복적으로 새로운 블록의 등장 */
     while(1)
     {
-		/* 상대방 블록 채우기 */
-		DrawOpponentBlock();
-
         /* 새 블록의 등장위치 설정 */
         InitNewBlockPos(START_CURPOS_X, START_CURPOS_Y);
 
         /* 블록 선택 */
         ChooseBlock();
         
-        /* 게임 종료 확인 */
-		if (IsGameOver())
-		{
-			setDefeatValue();
-		}
-         
         /* 내리는 작업 시작 */
         while(1)
         {
+			/* 게임 종료 확인 */
+			if (IsGameOver())
+			{
+				setLoseValue();
+				NetworkConditionRenew(select);
+				SetCurrentCursorPos(10, 10);
+				puts("You Lose!");
+				NetworkClose();
+				return 0;
+			}
+
+			/* 상대방 블록 채우기 */
+			DrawOpponentBlock();
+
 			/* 상대방 블록 상황 갱신 */
 			if (NetworkConditionRenew(select) == 1)
 			{
 				SetCurrentCursorPos(10, 10);
 				puts("You Win!");
-				puts("");
-				break;
-			}
-			else if (NetworkConditionRenew(select) == -1)
-			{
-				SetCurrentCursorPos(10, 10);
-				puts("You Lose!");
-				break;
+				NetworkClose();
+				getchar();
+				return 0;
 			}
 
             /* 블록을 아래로 한 칸 이동 */
@@ -90,10 +90,6 @@ int main(void)
 				break;		// SPACE 바 입력 시
         }
     }
-
-	NetworkClose();
-    
-    return 0;
 }
 
 /* end of file */
