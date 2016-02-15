@@ -6,6 +6,7 @@
 */
 #include "common.h"
 #include "blockStageControl.h"
+#include "TimeScoreLevelControl.h"
 #include "networkConnection.h"
 #include <winsock2.h>
 

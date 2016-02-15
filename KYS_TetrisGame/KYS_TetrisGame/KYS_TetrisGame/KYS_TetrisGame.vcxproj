@@ -108,6 +108,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -153,14 +154,14 @@
     <ClInclude Include="keyCurControl.h" />
     <ClInclude Include="networkConnection.h" />
     <ClInclude Include="point.h" />
-    <ClInclude Include="scoreLevelControl.h" />
+    <ClInclude Include="TimeScoreLevelControl.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="blockStageControl.c" />
     <ClCompile Include="keyCurControl.c" />
     <ClCompile Include="networkConnection.c" />
-    <ClCompile Include="scoreLevelControl.c" />
-    <ClCompile Include="tetrisMain.c" />
+    <ClCompile Include="TimeScoreLevelControl.c" />
+    <ClCompile Include="TetrisMain.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

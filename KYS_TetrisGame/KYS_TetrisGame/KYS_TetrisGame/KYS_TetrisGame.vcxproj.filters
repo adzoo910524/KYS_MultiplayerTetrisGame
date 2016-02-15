@@ -33,7 +33,7 @@
     <ClInclude Include="point.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="scoreLevelControl.h">
+    <ClInclude Include="TimeScoreLevelControl.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
@@ -47,10 +47,10 @@
     <ClCompile Include="networkConnection.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="scoreLevelControl.c">
+    <ClCompile Include="TimeScoreLevelControl.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="tetrisMain.c">
+    <ClCompile Include="TetrisMain.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

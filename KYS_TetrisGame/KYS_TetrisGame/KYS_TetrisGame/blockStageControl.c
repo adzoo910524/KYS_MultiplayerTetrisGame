@@ -10,7 +10,7 @@
 #include "point.h"
 #include "blockInfo.h"
 #include "keyCurControl.h"
-#include "scoreLevelControl.h"
+#include "TimeScoreLevelControl.h"
 #include "blockStageControl.h"
 
 #define  GBOARD_WIDTH    10
@@ -231,8 +231,8 @@ void RemoveFillUpLine(void)
 			}
 
 			y++;
-			AddGameScore(10);
-			ShowCurrentScoreAndLevel();
+			addGameScore(10);
+			showCurrentScoreAndLevel();
 		}
 	}
 

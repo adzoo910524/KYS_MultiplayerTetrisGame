@@ -4,11 +4,12 @@
  * 
  * Last modified 2016/01/24
  */
+#pragma warning(disable:4996)
 #include <Windows.h>
 #include "common.h"
 #include "keyCurControl.h"
 #include "blockStageControl.h"
-#include "scoreLevelControl.h"
+#include "TimeScoreLevelControl.h"
 #include "networkConnection.h"
 
 #define START_CURPOS_X         (5*2)
@@ -34,7 +35,7 @@ int main(void)
 	system("cls");
 
     /* 게임 속도 설정 */
-    InitKeyDelayRate(10);
+    InitKeyDelayRate(5);
 
     /* 커서 깜빡임 제거 */
     RemoveCursor();
@@ -43,7 +44,11 @@ int main(void)
     DrawGameBoard();
     
 	/* 현재 점수, 레벨 표시 */
-	ShowCurrentScoreAndLevel();
+	showCurrentScoreAndLevel();
+
+	/* 시간 정보 초기화 */
+	NetworkConditionRenew(select);
+	initTime();
 
     /* 반복적으로 새로운 블록의 등장 */
     while(1)
@@ -57,6 +62,9 @@ int main(void)
         /* 내리는 작업 시작 */
         while(1)
         {
+			/* 시간 갱신 */
+			showTime();
+
 			/* 게임 종료 확인 */
 			if (IsGameOver())
 			{
