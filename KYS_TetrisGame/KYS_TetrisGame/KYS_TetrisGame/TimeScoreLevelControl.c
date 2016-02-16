@@ -10,7 +10,7 @@
 #include "TimeScoreLevelControl.h"
 #include <time.h>
 
-#define LEVEL_DIFF				1	// 단계별 속도 증가 정보
+#define LEVEL_DIFF				5	// 단계별 속도 증가 정보
 #define LEVEL_UP_SCORE_DIFF		20  // 레벨이 증가하는 스코어 간격 정보
 
 static int curGameLevel = 1;
@@ -77,6 +77,8 @@ void showTime(void)
 			curTime = time(NULL);
 			min++;
 			sec = 0;
+			gameLevelUp();
+			timeBlocking = 1;
 		}
 		else if (sec == 1)
 			timeBlocking = 0;
