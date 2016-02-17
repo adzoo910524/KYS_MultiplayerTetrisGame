@@ -25,6 +25,9 @@ static int curTime, min, sec, timeBlocking;
  */
 void showCurrentScoreAndLevel(void)
 {	
+	point curPos;
+	curPos = GetCurrentCursorPos();
+
 	SetCurrentCursorPos(34, 1);
 	printf("▣ 다음 블록 ▣\n");
 
@@ -33,6 +36,8 @@ void showCurrentScoreAndLevel(void)
 
 	SetCurrentCursorPos(30, 16);
 	printf("▣ 현재 점수 : %d    ▣", curGameScore);
+
+	SetCurrentCursorPos(curPos.x, curPos.y);
 }
 
 /* 함	수 : void initTime(void)
@@ -69,10 +74,7 @@ void showTime(void)
 			gameLevelUp();
 			timeBlocking = 1;
 		}
-		else if (sec == 31)
-			timeBlocking = 0;
-
-		if (sec == 60 && !timeBlocking)
+		else if (sec == 60 && !timeBlocking)
 		{
 			curTime = time(NULL);
 			min++;
@@ -80,10 +82,10 @@ void showTime(void)
 			gameLevelUp();
 			timeBlocking = 1;
 		}
-		else if (sec == 1)
+		else if(sec==31 || sec == 0)
 			timeBlocking = 0;
 		
-		SetCurrentCursorPos(32, 10);
+		SetCurrentCursorPos(34, 10);
 		printf("   %02d : %02d    ", min, sec);
 
 		SetCurrentCursorPos(curPos.x, curPos.y);

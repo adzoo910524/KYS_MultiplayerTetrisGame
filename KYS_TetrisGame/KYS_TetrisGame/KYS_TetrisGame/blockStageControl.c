@@ -232,7 +232,6 @@ void RemoveFillUpLine(void)
 
 			y++;
 			addGameScore(10);
-			showCurrentScoreAndLevel();
 		}
 	}
 

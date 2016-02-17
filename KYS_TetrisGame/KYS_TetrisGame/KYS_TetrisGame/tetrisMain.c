@@ -58,6 +58,9 @@ int main(void)
 
         /* 블록 선택 */
         ChooseBlock();
+
+		/* 점수와 레벨 정보 출력 */
+		showCurrentScoreAndLevel();
         
         /* 내리는 작업 시작 */
         while(1)
