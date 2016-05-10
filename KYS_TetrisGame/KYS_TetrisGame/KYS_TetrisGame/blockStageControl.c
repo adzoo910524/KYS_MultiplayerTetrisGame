@@ -5,7 +5,6 @@
  * Last modified 2016/01/24
  */
 
-#include <time.h>
 #include "common.h"
 #include "point.h"
 #include "blockInfo.h"

@@ -4,6 +4,7 @@
  * 
  * Last modified 2016/01/24
  */
+#pragma comment(lib, "ws2_32.lib")
 #pragma warning(disable:4996)
 #include <Windows.h>
 #include "common.h"
@@ -89,7 +90,7 @@ int main(void)
 				puts("You Win!");
 				NetworkClose();
 				getchar();
-				return 0;
+				return 0;	
 			}
 
             /* 블록을 아래로 한 칸 이동 */

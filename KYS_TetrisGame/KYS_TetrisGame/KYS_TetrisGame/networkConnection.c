@@ -10,13 +10,14 @@
 #include "networkConnection.h"
 #include <winsock2.h>
 
+
 #define  GBOARD_WIDTH    10
 #define  GBOARD_HEIGHT   20
 
 #define OPPONENT_GBOARD_WIDTH    10
 #define OPPONENT_GBOARD_HEIGHT   20
 
-static enum {WIN=1, CONTINUE=0, LOSE=-1};
+enum { WIN = 1, CONTINUE = 0, LOSE = -1 };
 
 static WSADATA wsaData;
 static SOCKET sock;
@@ -39,6 +40,8 @@ static const int BUF_SIZE = sizeof(opponentGameBoardInfo);
 void BeServer(void)
 {
 	int myPort;
+	u_long sock_on = 1;
+
 	fputs("Port Number input : ", stdout);
 	scanf("%d", &myPort);
 
@@ -49,6 +52,8 @@ void BeServer(void)
 	if (sock == INVALID_SOCKET)
 		ErrorHandling("UDP socket creation error");
 
+	ioctlsocket(sock, FIONBIO, &sock_on);
+
 	memset(&servAdr, 0, sizeof(servAdr));
 	servAdr.sin_family = AF_INET;
 	servAdr.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -56,6 +61,8 @@ void BeServer(void)
 
 	if (bind(sock, (SOCKADDR*)&servAdr, sizeof(servAdr)) == SOCKET_ERROR)
 		ErrorHandling("bind() error");
+
+	while (recv(sock, (char*)gameBoardInfo, BUF_SIZE, 0) == SOCKET_ERROR);
 }
 
 /* 함    수: void BeClient(void)
@@ -67,6 +74,7 @@ void BeClient(void)
 {
 	int myPort;
 	char myIP[30];
+	u_long sock_on = 1;
 
 	fputs("IP Address input : ", stdout);
 	scanf("%s", myIP);
@@ -79,6 +87,7 @@ void BeClient(void)
 	sock = socket(PF_INET, SOCK_DGRAM, 0);
 	if (sock == INVALID_SOCKET)
 		ErrorHandling("socket() error");
+	ioctlsocket(sock, FIONBIO, &sock_on);
 
 	memset(&servAdr, 0, sizeof(servAdr));
 	servAdr.sin_family = AF_INET;
@@ -87,7 +96,7 @@ void BeClient(void)
 
 	connect(sock, (SOCKADDR*)&servAdr, sizeof(servAdr));
 
-	send(sock, (char*)gameBoardInfo, BUF_SIZE, 0);
+	while (send(sock, (char*)gameBoardInfo, BUF_SIZE, 0) == SOCKET_ERROR);
 }
 
 /* 함    수: void NetworkConditionRenew(int SC_select)
@@ -97,26 +106,37 @@ void BeClient(void)
 */
 int NetworkConditionRenew(int SC_select)
 {
-	if (SC_select == 1)
-	{
-		clntAdrSz = sizeof(clntAdr);
-		strLen = recvfrom(sock, (char*)opponentGameBoardInfo, BUF_SIZE, 0,
-			(SOCKADDR*)&clntAdr, &clntAdrSz);
+	static unsigned int curTime = 0;
+	unsigned int time_t = (unsigned int)time(NULL);
 
-		if (opponentGameBoardInfo[0][0] == LOSE)
-			return WIN;
-
-		sendto(sock, (char*)gameBoardInfo, BUF_SIZE, 0,
-			(SOCKADDR*)&clntAdr, sizeof(clntAdr));
+	if (gameBoardInfo[0][0] == -1) {
+		sendto(sock, (char*)gameBoardInfo, BUF_SIZE, 0, (SOCKADDR*)&clntAdr, sizeof(clntAdr) == SOCKET_ERROR);
+		return LOSE;
 	}
-	else
-	{
-		strLen = recv(sock, (char*)opponentGameBoardInfo, BUF_SIZE, 0);
 
-		if (opponentGameBoardInfo[0][0] == LOSE)
-			return WIN;
-
-		send(sock, (char*)gameBoardInfo, BUF_SIZE, 0);
+	if (curTime != time_t) {
+		curTime = time_t;
+		if (SC_select == 1)
+		{
+			clntAdrSz = sizeof(clntAdr);
+			while (recvfrom(sock, (char*)opponentGameBoardInfo, BUF_SIZE, 0,
+				(SOCKADDR*)&clntAdr, &clntAdrSz) > 0);
+			if (opponentGameBoardInfo[0][0] == LOSE) {
+				DrawOpponentBlock();
+				return WIN;
+			}
+			sendto(sock, (char*)gameBoardInfo, BUF_SIZE, 0,
+				(SOCKADDR*)&clntAdr, sizeof(clntAdr));
+		}
+		else
+		{
+			while (recv(sock, (char*)opponentGameBoardInfo, BUF_SIZE, 0) > 0);
+			if (opponentGameBoardInfo[0][0] == LOSE) {
+				DrawOpponentBlock();
+				return WIN;
+			}
+			send(sock, (char*)gameBoardInfo, BUF_SIZE, 0);
+		}
 	}
 
 	return CONTINUE;

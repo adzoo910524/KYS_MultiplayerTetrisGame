@@ -8,15 +8,14 @@
 #include "common.h"
 #include "keyCurControl.h"
 #include "TimeScoreLevelControl.h"
-#include <time.h>
+
 
 #define LEVEL_DIFF				5	// 단계별 속도 증가 정보
 #define LEVEL_UP_SCORE_DIFF		20  // 레벨이 증가하는 스코어 간격 정보
 
 static int curGameLevel = 1;
 static int curGameScore = 0;
-static time_t t = 0;;
-static int curTime, min, sec, timeBlocking;
+static unsigned int curTime, min, sec, timeBlocking;
 
 /* 함	수 : void showCurrentScoreAndLevel(void)
  * 기	능 : 점수와 레벨 정보 출력
@@ -60,9 +59,10 @@ void initTime(void)
 */
 void showTime(void)
 {
-	int newTime = time(NULL);
-	int diff = newTime - curTime;
+	unsigned int newTime = (unsigned int)time(NULL);
+	unsigned int diff = newTime - curTime;
 	point curPos;
+	time_t a = time(NULL);
 
 	if (sec < diff)
 	{
