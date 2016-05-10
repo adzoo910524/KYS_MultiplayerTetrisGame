@@ -96,7 +96,7 @@ void BeClient(void)
 
 	connect(sock, (SOCKADDR*)&servAdr, sizeof(servAdr));
 
-	while (send(sock, (char*)gameBoardInfo, BUF_SIZE, 0) == SOCKET_ERROR);
+	send(sock, (char*)gameBoardInfo, BUF_SIZE, 0);
 }
 
 /* วิ    ผ๖: void NetworkConditionRenew(int SC_select)
