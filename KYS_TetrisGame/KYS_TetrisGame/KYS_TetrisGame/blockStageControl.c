@@ -66,14 +66,14 @@ void ChooseBlock(void)
 	if(!isFirstBlock)
 	{ 
 		currentBlockModel = nextBlockModel;
-		nextBlockModel = (rand() % NUM_OF_BLOCK_MODEL) * 4;
+		nextBlockModel = (rand() % NUM_OF_BLOCK_MODEL) << 2;
 		NextShowBlock(blockModel[nextBlockModel]);
 	}
 	else
 	{
-		currentBlockModel = (rand() % NUM_OF_BLOCK_MODEL) * 4;
+		currentBlockModel = (rand() % NUM_OF_BLOCK_MODEL) << 2;
 		srand((unsigned int)time(NULL)+1);
-		nextBlockModel = (rand() % NUM_OF_BLOCK_MODEL) * 4;
+		nextBlockModel = (rand() % NUM_OF_BLOCK_MODEL) << 2;
 		isFirstBlock = FALSE;
 	}
 	timePlusValue = (timePlusValue == 10 ? 0 : timePlusValue);
@@ -307,7 +307,7 @@ void RotateBlock(void)
     DeleteBlock(blockModel[GetCurrentBlockIdx()]);
 
     nextRotSte=rotateSte+1;
-    nextRotSte%=4;
+    nextRotSte&=3;
     rotateSte=nextRotSte;
 
     if(!DetectCollision(curPosX, curPosY, blockModel[GetCurrentBlockIdx()]))
@@ -463,7 +463,7 @@ void AddCurrentBlockInfoToBoard(void)
         for(x=0; x<4; x++)
         {
             /* 커서 위치 정보를 배열 index 정보로 변경 */
-            arrCurX=(curPosX-GBOARD_ORIGIN_X)/2;
+            arrCurX=(curPosX-GBOARD_ORIGIN_X) >> 1;
             arrCurY=curPosY-GBOARD_ORIGIN_Y;
 
             if(blockModel[GetCurrentBlockIdx()][y][x]==1)
@@ -500,7 +500,7 @@ void DrawSolidBlocks(void)
 	{
 		for (x = 1; x < GBOARD_WIDTH + 1; x++)
 		{
-			cursX = x * 2 + GBOARD_ORIGIN_X;
+			cursX = (x << 1) + GBOARD_ORIGIN_X;
 			cursY = y + GBOARD_ORIGIN_Y;
 			SetCurrentCursorPos(cursX, cursY);
 
